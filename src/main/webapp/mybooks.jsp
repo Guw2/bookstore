@@ -82,38 +82,61 @@
 		
 		<ul class="ul_mybooks" style="list-style-type: none;">
 	
-			<c:forEach items="${books}" var="book">
-					<li class="li_overflow">
-						<div class="mybooks_div">
-							<div><img alt="book" src="${book.getImage()}" width="100%" height="100%" ></div>
-							<h5>${book.getTitle()}</h5>
-						</div>
-					</li>
-			</c:forEach>
+			<c:choose>
+			
+				<c:when test="${books.size() > 0}">
+					<c:forEach items="${books}" var="book">
+						<li class="li_overflow">
+							<div class="mybooks_div">
+								<div><img alt="book" src="${book.getImage()}" width="100%" height="100%" ></div>
+								<h5>${book.getTitle()}</h5>
+							</div>
+						</li>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+				
+					<p style="text-align: center; margin-right: 35px;">Empty.</p>
+				
+				</c:otherwise>
+			
+			</c:choose>
+			
 		
 		</ul>
 	
 	</section>
-	<h2 style="text-align: center;">Your Books</h2>
+	<c:if test="${my_books.size() > 0}">
 	
-	<section style="width: 1000px; margin: auto;">
+		<h2 style="text-align: center;">Your Books</h2>
 		
-		<ul class="ul_mybooks" style="list-style-type: none;">
-	
-			<c:forEach items="${my_books}" var="book">
-					<li class="li_overflow">
-						<div class="mybooks_div">
-							<div><img alt="book" src="${book.getImage()}" width="100%" height="100%" ></div>
-							<h5>${book.getTitle()}</h5>
-							<p>${sold.findOrdersByBookId(book.getId()).size()} sold</p>
-							<p style="margin-top: -15px; font-size: 10px;">Profit : R$${decimalFormat.format(sold.findOrdersByBookId(book.getId()).size() * book.getPrice())}</p>
-						</div>
-					</li>
-			</c:forEach>
+		<section style="width: 1000px; margin: auto;">
+			
+			<ul class="ul_mybooks" style="list-style-type: none;">
 		
-		</ul>
+				<c:forEach items="${my_books}" var="book">
+						<li class="li_overflow">
+							<div class="mybooks_div">
+								<div><img alt="book" src="${book.getImage()}" width="100%" height="100%" ></div>
+								<h5>${book.getTitle()}</h5>
+								<p>${sold.findOrdersByBookId(book.getId()).size()} sold</p>
+								<p style="margin-top: -15px; font-size: 10px;">Profit : R$${decimalFormat.format(sold.findOrdersByBookId(book.getId()).size() * book.getPrice())}</p>
+							</div>
+						</li>
+				</c:forEach>
+			
+			</ul>
+		
+		</section>
 	
-	</section>
+	</c:if>
+	<% 
 	
+		session.removeAttribute("decimalFormat");
+		session.removeAttribute("sold");
+		session.removeAttribute("books");
+		session.removeAttribute("my_books");
+	
+	%>
 </body>
 </html>

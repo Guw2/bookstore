@@ -145,8 +145,18 @@
 			</div>
 			<br>
 		</c:forEach>
-		
-	
 	</section>
+	
+	<%
+	
+		session.removeAttribute("book");
+		session.removeAttribute("sold");
+		session.removeAttribute("alreadyLiked");
+		session.removeAttribute("userModel");
+		session.removeAttribute("comments");
+		session.removeAttribute("contains");
+	
+	%>
+	
 </body>
 </html>

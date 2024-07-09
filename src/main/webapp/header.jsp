@@ -48,9 +48,10 @@
 			<li><a href="store.jsp"><div>Store</div></a></li>
 			<li><a href="profile.jsp"><div>Profile</div></a></li>
 			<li><a href="mybooks.jsp"><div>My Books</div></a></li>
+			<li><a href="mybooks.jsp"><div>Cart</div></a></li>
 			<li><a href="logout"><div>Logout</div></a></li>
 		</ul>
-	
+		
 	</header>
 	
 	<hr>
