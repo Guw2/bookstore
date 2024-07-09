@@ -111,6 +111,7 @@
 	<%
 	
 		session.removeAttribute("books");
+		session.removeAttribute("decimalFormat");
 	
 	%>
 	

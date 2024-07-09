@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.lorian.DAOs.UserDAO;
 import com.lorian.models.User;
 import com.lorian.models.enums.Role;
@@ -29,7 +31,7 @@ public class RegisterServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String nin = request.getParameter("register");
 		String address = request.getParameter("address");
-		String password = null;
+		String password = "";
 		
 		UserDAO dao = new UserDAO();
 		
@@ -39,7 +41,7 @@ public class RegisterServlet extends HttpServlet {
 			throw new NullPointerException();
 		}else {
 			if(request.getParameter("pass").equals(request.getParameter("cpass"))) {
-				password = request.getParameter("pass");
+				password = BCrypt.hashpw(request.getParameter("pass"), BCrypt.gensalt());
 				User user = new User(0L, username, email, nin, address, 0f, password, Role.USER);
 				try {
 					dao.insertUser(user);

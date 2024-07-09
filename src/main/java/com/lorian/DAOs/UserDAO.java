@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.lorian.models.User;
 import com.lorian.models.enums.Role;
 
@@ -33,7 +35,7 @@ public class UserDAO {
 		ResultSet rs = connect.createStatement().executeQuery("SELECT password FROM user WHERE name = '" + username + "';");
 		
 		if(rs.next()) {
-			if(rs.getString(1).equals(password)) {
+			if(BCrypt.checkpw(password, rs.getString(1))) {
 				connect.close();
 				return true;
 			}else {

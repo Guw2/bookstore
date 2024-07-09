@@ -47,5 +47,10 @@
 		border-radius: 4px; padding: 7px; background-color: green; color: white;">Deposite</a>
 		
 	</div>
+	<%
+	
+		session.removeAttribute("user_model");
+	
+	%>
 </body>
 </html>
