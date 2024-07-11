@@ -1,3 +1,4 @@
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="com.lorian.models.User"%>
 <%@page import="com.lorian.DAOs.UserDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -23,7 +24,7 @@
 			response.sendRedirect("login");
 		}else{
 			User userModel = dao.getByUsername((String) session.getAttribute("user"));
-			session.setAttribute("user_model", userModel);
+			request.setAttribute("user_model", userModel);
 		}
 		
 	%>
@@ -42,15 +43,11 @@
 		<input disabled="disabled" type="text" value="${user_model.getAddress()}"><br>
 		<br>
 		Balance
-		<div style="border: 2px solid green; width: 150px; margin-left: 174px;">R$${user_model.getBalance()}</div><br>
-		<a href="" style="text-decoration: none; border: 2px solid white;
-		border-radius: 4px; padding: 7px; background-color: green; color: white;">Deposite</a>
+		<div style="border: 2px solid green; width: 150px; margin-left: 174px;">R$${decimalFormat.format(user_model.getBalance())}</div><br>
+		
+		<!--<a href="" style="text-decoration: none; border: 2px solid white;
+		border-radius: 4px; padding: 7px; background-color: green; color: white;">Deposite</a>-->
 		
 	</div>
-	<%
-	
-		session.removeAttribute("user_model");
-	
-	%>
 </body>
 </html>

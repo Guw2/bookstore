@@ -1,3 +1,6 @@
+<%@page import="com.lorian.DAOs.BookDAO"%>
+<%@page import="com.lorian.DAOs.OrderDAO"%>
+<%@page import="java.text.DecimalFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -40,6 +43,21 @@
 <body style="font-family: arial; zoom: 120%;">
 
 	<h1 style="text-align: center;">Book Store</h1>
+	<%! 
+	
+	DecimalFormat decimalFormat = new DecimalFormat("#.00"); 
+	OrderDAO orderDao = new OrderDAO();
+	BookDAO bookDao = new BookDAO();
+	
+	%>
+	
+	<% 
+	
+		request.setAttribute("decimalFormat", decimalFormat);
+		request.setAttribute("orderDao", orderDao);
+		
+	
+	%>
 	
 	<header>
 	
@@ -48,7 +66,7 @@
 			<li><a href="store.jsp"><div>Store</div></a></li>
 			<li><a href="profile.jsp"><div>Profile</div></a></li>
 			<li><a href="mybooks.jsp"><div>My Books</div></a></li>
-			<li><a href="mybooks.jsp"><div>Cart</div></a></li>
+			<li><a href="cart.jsp"><div>Cart</div></a></li>
 			<li><a href="logout"><div>Logout</div></a></li>
 		</ul>
 		

@@ -68,6 +68,26 @@ public class UserDAO {
 		return userToReturn;
 	}
 	
+	public User findById(Long user_id) throws SQLException, ClassNotFoundException {
+		Connection connect = new ConnectToDatabase().connect();
+		ResultSet rs = connect.createStatement().executeQuery("SELECT * FROM user WHERE id = " + user_id + ";");
+		rs.next();
+		
+		Long id = rs.getLong(1);
+		String name = rs.getString(2);
+		String email = rs.getString(3);
+		String register = rs.getString(4);
+		String address = rs.getString(5);
+		Float balance = rs.getFloat(6);
+		String password = rs.getString(7);
+		String role = rs.getString(8);
+		
+		User userToReturn = new User(id, name, email, register, address, balance, password, Role.valueOf(role));
+		
+		connect.close();
+		return userToReturn;
+	}
+	
 	public void debit(String username, Float value) throws ClassNotFoundException, SQLException {
 		Connection connect = new ConnectToDatabase().connect();
 		

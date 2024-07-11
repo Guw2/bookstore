@@ -1,3 +1,4 @@
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="com.lorian.DAOs.UserLikesDAO"%>
 <%@page import="com.lorian.models.User"%>
 <%@page import="com.lorian.DAOs.UserDAO"%>
@@ -58,7 +59,6 @@
 </head>
 <body>
 	<section class="main_section">
-		<%! OrderDAO dao = new OrderDAO(); %>
 		<%
 		
 			if(session.getAttribute("user") == null){
@@ -70,14 +70,13 @@
 				
 				List<Comment> comments = new CommentDAO().getAllCommentsFromABook(book.getId());
 				
-				List<Book> userBooks = dao.findOrderedBooksByUsername((String) session.getAttribute("user"));
+				List<Book> userBooks = orderDao.findSoldBooksByUsername((String) session.getAttribute("user"));
 				
-				session.setAttribute("book", book);
-				session.setAttribute("sold", new OrderDAO());
-				session.setAttribute("alreadyLiked", new UserLikesDAO());
-				session.setAttribute("userModel", user);
-				session.setAttribute("comments", comments);
-				session.setAttribute("contains", userBooks.contains(book));
+				request.setAttribute("book", book);
+				request.setAttribute("alreadyLiked", new UserLikesDAO());
+				request.setAttribute("userModel", user);
+				request.setAttribute("comments", comments);
+				request.setAttribute("contains", userBooks.contains(book));
 			}
 		
 		%>
@@ -85,10 +84,14 @@
 		<img alt="book" src="${chosenBook.getImage()}" style="border: 2px solid black;
 		width: 315px; height: 315px;">
 		<h2>${chosenBook.getTitle()}</h2>
-		<h4 style="margin-left: 5px;">R$${chosenBook.getPrice()} | ${chosenBook.getStock()} in Stock</h4>
-		<h5>by ${chosenBook.getAuthor()} | ${sold.findOrdersByBookId(book.getId()).size()} sold</h5>
+		
+		<h4 style="margin-left: 5px;">R$${decimalFormat.format(chosenBook.getPrice())} | ${chosenBook.getStock()} in Stock</h4>
+		
+		<h5>by ${chosenBook.getAuthor()} | ${orderDao.findSoldBooksByBookId(chosenBook.getId()).size()} sold</h5>
+		
 		<c:if test="${!chosenBook.getAuthor().equals(user) && !contains}">
-			<a style="text-decoration: none;" href="order" class="buy">Order Now</a>
+			<a style="text-decoration: none;" href="order?book=${chosenBook.getId()}" class="buy">Order Now</a>
+			
 		</c:if>
 		
 		
@@ -146,17 +149,6 @@
 			<br>
 		</c:forEach>
 	</section>
-	
-	<%
-	
-		session.removeAttribute("book");
-		session.removeAttribute("sold");
-		session.removeAttribute("alreadyLiked");
-		session.removeAttribute("userModel");
-		session.removeAttribute("comments");
-		session.removeAttribute("contains");
-	
-	%>
 	
 </body>
 </html>

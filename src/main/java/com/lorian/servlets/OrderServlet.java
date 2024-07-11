@@ -1,5 +1,6 @@
 package com.lorian.servlets;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -24,30 +25,29 @@ public class OrderServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		UserDAO userDao = new UserDAO();
 		
+		String delete = request.getParameter("delete");
+		
 		try {
-			Book book = (Book) session.getAttribute("chosenBook");
+			Book book = new BookDAO().getById(Long.parseLong(request.getParameter("book")));
 			User user = userDao.getByUsername((String) session.getAttribute("user"));
 			
 			Long book_id = book.getId();
 			Long user_id = user.getId();
+			RequestDispatcher rd;
 			
-			if(user.getBalance() - book.getPrice() > 0) {
-				userDao.debit(user.getName(), book.getPrice());
-				userDao.addToBalance(book.getAuthor(), book.getPrice());
-				new BookDAO().stockDebit(book.getId());
-				
+			if(delete == null) {
 				new OrderDAO().assignOrderToUserById(user_id, book_id);
-				
-				response.sendRedirect("mybooks.jsp");
+				rd = request.getRequestDispatcher("cart.jsp");
 			}else {
-				throw new Exception("You don't have enough funds.");
+				new OrderDAO().deleteOrder(user_id, book_id);
+				rd = request.getRequestDispatcher("cart.jsp");
 			}
 			
-		} catch (Exception e) {
+			rd.forward(request, response);
+		}catch(Exception e) {
 			request.setAttribute("e", e);
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
-		
 		
 	}
 

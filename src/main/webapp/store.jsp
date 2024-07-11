@@ -66,11 +66,6 @@
 
 	<h2 style="text-align:center;">Catalogue</h2>
 
-	<%! 
-		BookDAO dao = new BookDAO(); 
-		DecimalFormat decimalFormat = new DecimalFormat("#.00");
-	%>
-
 	<%
 		
 		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");	
@@ -78,8 +73,7 @@
 		if(session.getAttribute("user") == null){
 			response.sendRedirect("login");
 		}else{
-			session.setAttribute("books", dao.getAll());
-			session.setAttribute("decimalFormat", decimalFormat);
+			request.setAttribute("books", bookDao.getAll());
 		}
 
 	%>
@@ -107,13 +101,6 @@
 	<div style="text-align: center;">
 		<a href="announce.jsp" style="border: 2px solid black; border-radius: 3px; padding: 5px; text-decoration: none; color: black;">Announce</a>	
 	</div>
-	
-	<%
-	
-		session.removeAttribute("books");
-		session.removeAttribute("decimalFormat");
-	
-	%>
 	
 </body>
 </html>

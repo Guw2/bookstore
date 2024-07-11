@@ -59,20 +59,14 @@
 </style>
 </head>
 <body>
-	<%! 
-	
-		OrderDAO dao = new OrderDAO();
-		DecimalFormat decimalFormat = new DecimalFormat("#.00");
-	%>
 	<%
 		if(session.getAttribute("user") == null){
 			response.sendRedirect("login");
 		}else{
 			
-			session.setAttribute("decimalFormat", decimalFormat);
-			session.setAttribute("sold", new OrderDAO());
-			session.setAttribute("books", dao.findOrderedBooksByUsername((String) session.getAttribute("user")));
-			session.setAttribute("my_books", new BookDAO().getByAuthor((String) session.getAttribute("user")));
+			request.setAttribute("books", orderDao.findSoldBooksByUsername((String) session.getAttribute("user")));
+			request.setAttribute("my_books", new BookDAO().getByAuthor((String) session.getAttribute("user")));
+			
 		}
 		
 	%>
@@ -119,8 +113,8 @@
 							<div class="mybooks_div">
 								<div><img alt="book" src="${book.getImage()}" width="100%" height="100%" ></div>
 								<h5>${book.getTitle()}</h5>
-								<p>${sold.findOrdersByBookId(book.getId()).size()} sold</p>
-								<p style="margin-top: -15px; font-size: 10px;">Profit : R$${decimalFormat.format(sold.findOrdersByBookId(book.getId()).size() * book.getPrice())}</p>
+								<p>${orderDao.findOrdersByBookId(book.getId()).size()} sold</p>
+								<p style="margin-top: -15px; font-size: 10px;">Profit : R$${decimalFormat.format(orderDao.findOrdersByBookId(book.getId()).size() * book.getPrice())}</p>
 							</div>
 						</li>
 				</c:forEach>
@@ -130,13 +124,5 @@
 		</section>
 	
 	</c:if>
-	<% 
-	
-		session.removeAttribute("decimalFormat");
-		session.removeAttribute("sold");
-		session.removeAttribute("books");
-		session.removeAttribute("my_books");
-	
-	%>
 </body>
 </html>
