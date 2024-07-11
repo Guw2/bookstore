@@ -7,7 +7,7 @@ Tables :
    
 		 book (id INT, title STRING, description STRING, price FLOAT, stock INT, product_image STRING, author STRING)
 		 
-		 orders (id INT, user_id INT, book_id INT)
+		 orders (id INT, user_id INT, book_id INT, sold INT)
 		 
 		 comment (id INT, user STRING, likes INT, content STRING, book_id INT)
 		 
