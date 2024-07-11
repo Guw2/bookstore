@@ -59,6 +59,7 @@
 </head>
 <body>
 	<section class="main_section">
+		<%! DecimalFormat decimalFormat = new DecimalFormat("#.00");  %>
 		<%
 		
 			if(session.getAttribute("user") == null){
@@ -77,6 +78,7 @@
 				request.setAttribute("userModel", user);
 				request.setAttribute("comments", comments);
 				request.setAttribute("contains", userBooks.contains(book));
+				request.setAttribute("decimalFormat", decimalFormat);
 			}
 		
 		%>

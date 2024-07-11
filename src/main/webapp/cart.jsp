@@ -60,15 +60,22 @@
 <body>
 	<%! 
 	UserDAO userDao = new UserDAO();
+	DecimalFormat decimalFormat = new DecimalFormat("#.00");
 	%>
 	<br>
 	<section class="main_section">
 		
 		<% 
 		
+		if(session.getAttribute("user") == null){
+			response.sendRedirect("login");
+		}else{
 			request.setAttribute("orders", orderDao.findOrderedBooksByUsername((String) session.getAttribute("user")));
 			
 			request.setAttribute("userModel", userDao.getByUsername((String) session.getAttribute("user")));
+			
+			request.setAttribute("decimalFormat", decimalFormat);
+		}
 			
 			
 		

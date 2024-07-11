@@ -44,8 +44,6 @@
 
 	<h1 style="text-align: center;">Book Store</h1>
 	<%! 
-	
-	DecimalFormat decimalFormat = new DecimalFormat("#.00"); 
 	OrderDAO orderDao = new OrderDAO();
 	BookDAO bookDao = new BookDAO();
 	
@@ -53,7 +51,6 @@
 	
 	<% 
 	
-		request.setAttribute("decimalFormat", decimalFormat);
 		request.setAttribute("orderDao", orderDao);
 		
 	

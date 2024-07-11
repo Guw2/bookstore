@@ -65,6 +65,8 @@
 <body>
 
 	<h2 style="text-align:center;">Catalogue</h2>
+	
+	<%! DecimalFormat decimalFormat = new DecimalFormat("#.00"); %>
 
 	<%
 		
@@ -74,6 +76,7 @@
 			response.sendRedirect("login");
 		}else{
 			request.setAttribute("books", bookDao.getAll());
+			request.setAttribute("decimalFormat", decimalFormat);
 		}
 
 	%>

@@ -13,7 +13,8 @@
 <body>
 	<h2 style="text-align:center;">Your Information</h2>
 	<%! 
-		UserDAO dao = new UserDAO();
+		UserDAO userDao = new UserDAO();
+		DecimalFormat decimalFormat = new DecimalFormat("#.00");
 	%>
 	
 	<%
@@ -23,8 +24,9 @@
 		if(session.getAttribute("user") == null){
 			response.sendRedirect("login");
 		}else{
-			User userModel = dao.getByUsername((String) session.getAttribute("user"));
+			User userModel = userDao.getByUsername((String) session.getAttribute("user"));
 			request.setAttribute("user_model", userModel);
+			request.setAttribute("decimalFormat", decimalFormat);
 		}
 		
 	%>

@@ -59,6 +59,7 @@
 </style>
 </head>
 <body>
+	<%! DecimalFormat decimalFormat = new DecimalFormat("#.00"); %>
 	<%
 		if(session.getAttribute("user") == null){
 			response.sendRedirect("login");
@@ -66,7 +67,7 @@
 			
 			request.setAttribute("books", orderDao.findSoldBooksByUsername((String) session.getAttribute("user")));
 			request.setAttribute("my_books", new BookDAO().getByAuthor((String) session.getAttribute("user")));
-			
+			request.setAttribute("decimalFormat", decimalFormat);
 		}
 		
 	%>
